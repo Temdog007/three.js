@@ -181,7 +181,7 @@ Menubar.Add = function ( editor ) {
 
 		var geometry = new THREE.BufferGeometry();
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
-		mesh.name = '';
+		mesh.name = 'Empty';
 
 		editor.execute( new AddObjectCommand( editor, mesh ) );
 
