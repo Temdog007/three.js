@@ -289,7 +289,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialMapRow = new UI.Row();
 	var materialMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialMap = new UI.Texture().onChange( updateMaterial );
+	var materialMap = new UI.Texture(editor).onChange( updateMaterial );
 
 	materialMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/map' ) ).setWidth( '90px' ) );
 	materialMapRow.add( materialMapEnabled );
@@ -313,7 +313,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialAlphaMapRow = new UI.Row();
 	var materialAlphaMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialAlphaMap = new UI.Texture().onChange( update );
+	var materialAlphaMap = new UI.Texture( editor ).onChange( update );
 
 	materialAlphaMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/alphamap' ) ).setWidth( '90px' ) );
 	materialAlphaMapRow.add( materialAlphaMapEnabled );
@@ -325,7 +325,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialBumpMapRow = new UI.Row();
 	var materialBumpMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialBumpMap = new UI.Texture().onChange( update );
+	var materialBumpMap = new UI.Texture( editor ).onChange( update );
 	var materialBumpScale = new UI.Number( 1 ).setWidth( '30px' ).onChange( update );
 
 	materialBumpMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/bumpmap' ) ).setWidth( '90px' ) );
@@ -339,7 +339,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialNormalMapRow = new UI.Row();
 	var materialNormalMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialNormalMap = new UI.Texture().onChange( update );
+	var materialNormalMap = new UI.Texture( editor ).onChange( update );
 
 	materialNormalMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/normalmap' ) ).setWidth( '90px' ) );
 	materialNormalMapRow.add( materialNormalMapEnabled );
@@ -351,7 +351,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialDisplacementMapRow = new UI.Row();
 	var materialDisplacementMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialDisplacementMap = new UI.Texture().onChange( update );
+	var materialDisplacementMap = new UI.Texture( editor ).onChange( update );
 	var materialDisplacementScale = new UI.Number( 1 ).setWidth( '30px' ).onChange( update );
 
 	materialDisplacementMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/displacemap' ) ).setWidth( '90px' ) );
@@ -365,7 +365,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialRoughnessMapRow = new UI.Row();
 	var materialRoughnessMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialRoughnessMap = new UI.Texture().onChange( update );
+	var materialRoughnessMap = new UI.Texture( editor ).onChange( update );
 
 	materialRoughnessMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/roughmap' ) ).setWidth( '90px' ) );
 	materialRoughnessMapRow.add( materialRoughnessMapEnabled );
@@ -377,7 +377,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialMetalnessMapRow = new UI.Row();
 	var materialMetalnessMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialMetalnessMap = new UI.Texture().onChange( update );
+	var materialMetalnessMap = new UI.Texture( editor ).onChange( update );
 
 	materialMetalnessMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/metalmap' ) ).setWidth( '90px' ) );
 	materialMetalnessMapRow.add( materialMetalnessMapEnabled );
@@ -389,7 +389,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialSpecularMapRow = new UI.Row();
 	var materialSpecularMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialSpecularMap = new UI.Texture().onChange( update );
+	var materialSpecularMap = new UI.Texture( editor ).onChange( update );
 
 	materialSpecularMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/specularmap' ) ).setWidth( '90px' ) );
 	materialSpecularMapRow.add( materialSpecularMapEnabled );
@@ -401,7 +401,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialEnvMapRow = new UI.Row();
 	var materialEnvMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialEnvMap = new UI.Texture( THREE.SphericalReflectionMapping ).onChange( updateMaterial );
+	var materialEnvMap = new UI.Texture( editor, THREE.SphericalReflectionMapping ).onChange( updateMaterial );
 	var materialReflectivity = new UI.Number( 1 ).setWidth( '30px' ).onChange( update );
 
 	materialEnvMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/envmap' ) ).setWidth( '90px' ) );
@@ -415,7 +415,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialLightMapRow = new UI.Row();
 	var materialLightMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialLightMap = new UI.Texture().onChange( update );
+	var materialLightMap = new UI.Texture( editor ).onChange( update );
 
 	materialLightMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/lightmap' ) ).setWidth( '90px' ) );
 	materialLightMapRow.add( materialLightMapEnabled );
@@ -427,7 +427,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialAOMapRow = new UI.Row();
 	var materialAOMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialAOMap = new UI.Texture().onChange( update );
+	var materialAOMap = new UI.Texture( editor ).onChange( update );
 	var materialAOScale = new UI.Number( 1 ).setRange( 0, 1 ).setWidth( '30px' ).onChange( update );
 
 	materialAOMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/aomap' ) ).setWidth( '90px' ) );
@@ -441,7 +441,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialEmissiveMapRow = new UI.Row();
 	var materialEmissiveMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialEmissiveMap = new UI.Texture().onChange( updateMaterial );
+	var materialEmissiveMap = new UI.Texture(editor).onChange( updateMaterial );
 
 	materialEmissiveMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/emissivemap' ) ).setWidth( '90px' ) );
 	materialEmissiveMapRow.add( materialEmissiveMapEnabled );
