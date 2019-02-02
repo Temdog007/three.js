@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(global = global || self, factory(global.THREE = {}));
-}(this, function (exports) { 'use strict';
+	(factory((global.THREE = {})));
+}(this, (function (exports) { 'use strict';
 
 	// Polyfills
 
@@ -48883,6 +48883,59 @@
 	exports.Box2 = Box2;
 	exports.Box3 = Box3;
 	exports.Box3Helper = Box3Helper;
+	exports.PlaneHelper = PlaneHelper;
+	exports.ArrowHelper = ArrowHelper;
+	exports.AxesHelper = AxesHelper;
+	exports.Shape = Shape;
+	exports.Path = Path;
+	exports.ShapePath = ShapePath;
+	exports.Font = Font;
+	exports.CurvePath = CurvePath;
+	exports.Curve = Curve;
+	exports.ImageUtils = ImageUtils;
+	exports.ShapeUtils = ShapeUtils;
+	exports.WebGLUtils = WebGLUtils;
+	exports.WireframeGeometry = WireframeGeometry;
+	exports.ParametricGeometry = ParametricGeometry;
+	exports.ParametricBufferGeometry = ParametricBufferGeometry;
+	exports.TetrahedronGeometry = TetrahedronGeometry;
+	exports.TetrahedronBufferGeometry = TetrahedronBufferGeometry;
+	exports.OctahedronGeometry = OctahedronGeometry;
+	exports.OctahedronBufferGeometry = OctahedronBufferGeometry;
+	exports.IcosahedronGeometry = IcosahedronGeometry;
+	exports.IcosahedronBufferGeometry = IcosahedronBufferGeometry;
+	exports.DodecahedronGeometry = DodecahedronGeometry;
+	exports.DodecahedronBufferGeometry = DodecahedronBufferGeometry;
+	exports.PolyhedronGeometry = PolyhedronGeometry;
+	exports.PolyhedronBufferGeometry = PolyhedronBufferGeometry;
+	exports.TubeGeometry = TubeGeometry;
+	exports.TubeBufferGeometry = TubeBufferGeometry;
+	exports.TorusKnotGeometry = TorusKnotGeometry;
+	exports.TorusKnotBufferGeometry = TorusKnotBufferGeometry;
+	exports.TorusGeometry = TorusGeometry;
+	exports.TorusBufferGeometry = TorusBufferGeometry;
+	exports.TextGeometry = TextGeometry;
+	exports.TextBufferGeometry = TextBufferGeometry;
+	exports.SphereGeometry = SphereGeometry;
+	exports.SphereBufferGeometry = SphereBufferGeometry;
+	exports.RingGeometry = RingGeometry;
+	exports.RingBufferGeometry = RingBufferGeometry;
+	exports.PlaneGeometry = PlaneGeometry;
+	exports.PlaneBufferGeometry = PlaneBufferGeometry;
+	exports.LatheGeometry = LatheGeometry;
+	exports.LatheBufferGeometry = LatheBufferGeometry;
+	exports.ShapeGeometry = ShapeGeometry;
+	exports.ShapeBufferGeometry = ShapeBufferGeometry;
+	exports.ExtrudeGeometry = ExtrudeGeometry;
+	exports.ExtrudeBufferGeometry = ExtrudeBufferGeometry;
+	exports.EdgesGeometry = EdgesGeometry;
+	exports.ConeGeometry = ConeGeometry;
+	exports.ConeBufferGeometry = ConeBufferGeometry;
+	exports.CylinderGeometry = CylinderGeometry;
+	exports.CylinderBufferGeometry = CylinderBufferGeometry;
+	exports.CircleGeometry = CircleGeometry;
+	exports.CircleBufferGeometry = CircleBufferGeometry;
+	exports.BoxGeometry = BoxGeometry;
 	exports.BoxBufferGeometry = BoxBufferGeometry;
 	exports.BoxGeometry = BoxGeometry;
 	exports.BoxHelper = BoxHelper;
@@ -49206,23 +49259,25 @@
 	exports.SubtractEquation = SubtractEquation;
 	exports.SubtractiveBlending = SubtractiveBlending;
 	exports.TangentSpaceNormalMap = TangentSpaceNormalMap;
-	exports.TetrahedronBufferGeometry = TetrahedronBufferGeometry;
-	exports.TetrahedronGeometry = TetrahedronGeometry;
-	exports.TextBufferGeometry = TextBufferGeometry;
-	exports.TextGeometry = TextGeometry;
-	exports.Texture = Texture;
-	exports.TextureLoader = TextureLoader;
-	exports.TorusBufferGeometry = TorusBufferGeometry;
-	exports.TorusGeometry = TorusGeometry;
-	exports.TorusKnotBufferGeometry = TorusKnotBufferGeometry;
-	exports.TorusKnotGeometry = TorusKnotGeometry;
-	exports.Triangle = Triangle;
-	exports.TriangleFanDrawMode = TriangleFanDrawMode;
-	exports.TriangleStripDrawMode = TriangleStripDrawMode;
-	exports.TrianglesDrawMode = TrianglesDrawMode;
-	exports.TubeBufferGeometry = TubeBufferGeometry;
-	exports.TubeGeometry = TubeGeometry;
-	exports.UVMapping = UVMapping;
+	exports.ObjectSpaceNormalMap = ObjectSpaceNormalMap;
+	exports.CubeGeometry = BoxGeometry;
+	exports.Face4 = Face4;
+	exports.LineStrip = LineStrip;
+	exports.LinePieces = LinePieces;
+	exports.MeshFaceMaterial = MeshFaceMaterial;
+	exports.MultiMaterial = MultiMaterial;
+	exports.PointCloud = PointCloud;
+	exports.Particle = Particle;
+	exports.ParticleSystem = ParticleSystem;
+	exports.PointCloudMaterial = PointCloudMaterial;
+	exports.ParticleBasicMaterial = ParticleBasicMaterial;
+	exports.ParticleSystemMaterial = ParticleSystemMaterial;
+	exports.Vertex = Vertex;
+	exports.DynamicBufferAttribute = DynamicBufferAttribute;
+	exports.Int8Attribute = Int8Attribute;
+	exports.Uint8Attribute = Uint8Attribute;
+	exports.Uint8ClampedAttribute = Uint8ClampedAttribute;
+	exports.Int16Attribute = Int16Attribute;
 	exports.Uint16Attribute = Uint16Attribute;
 	exports.Uint16BufferAttribute = Uint16BufferAttribute;
 	exports.Uint32Attribute = Uint32Attribute;
@@ -49266,4 +49321,4 @@
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
