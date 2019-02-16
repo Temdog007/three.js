@@ -53,6 +53,16 @@ Sidebar.Geometry.TubeGeometry = function ( editor, object ) {
 
 	container.add( radialSegmentsRow );
 
+	// radius offset
+
+	var radiusOffsetRow = new UI.Row();
+	var radialOffset = new UI.Number( parameters.radialOffset * THREE.Math.RAD2DEG ).setStep( 10 ).onChange( update ).setUnit( '°' );
+
+	radiusOffsetRow.add( new UI.Text( strings.getKey( 'sidebar/geometry/tube_geometry/radialoffset' ) ).setWidth( '90px' ) );
+	radiusOffsetRow.add( radialOffset );
+
+	container.add( radiusOffsetRow );
+
 	// closed
 
 	var closedRow = new UI.Row();
@@ -92,6 +102,7 @@ Sidebar.Geometry.TubeGeometry = function ( editor, object ) {
 			tubularSegments.getValue(),
 			radius.getValue(),
 			radialSegments.getValue(),
+			radialOffset.getValue() * THREE.Math.DEG2RAD,
 			closed.getValue()
 		) ) );
 

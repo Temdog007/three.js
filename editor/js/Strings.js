@@ -203,6 +203,7 @@ var Strings = function ( config ) {
 			'sidebar/geometry/tube_geometry/tube': 'Tube',
 			'sidebar/geometry/tube_geometry/tubularsegments': 'Tubular segments',
 			'sidebar/geometry/tube_geometry/radialsegments': 'Radial segments',
+			'sidebar/geometry/tube_geometry/radialoffset': 'Radial offset',
 			'sidebar/geometry/tube_geometry/closed': 'Closed',
 			'sidebar/geometry/tube_geometry/curvetype': 'Curve Type',
 			'sidebar/geometry/tube_geometry/tension': 'Tension',

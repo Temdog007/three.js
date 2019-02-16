@@ -16,23 +16,30 @@ import { Vector3 } from '../math/Vector3.js';
 
 // TubeGeometry
 
-function TubeGeometry( path, tubularSegments, radius, radialSegments, closed, taper ) {
+function TubeGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed ) {
 
 	Geometry.call( this );
 
 	this.type = 'TubeGeometry';
+
+	// backwards compatibility
+	if ( radialOffset !== undefined && typeof radialOffset == "boolean" ) {
+
+		closed = radialOffset;
+		radialOffset = undefined;
+
+	}
 
 	this.parameters = {
 		path: path,
 		tubularSegments: tubularSegments,
 		radius: radius,
 		radialSegments: radialSegments,
+		radialOffset: radialOffset,
 		closed: closed
 	};
 
-	if ( taper !== undefined ) console.warn( 'THREE.TubeGeometry: taper has been removed.' );
-
-	var bufferGeometry = new TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed );
+	var bufferGeometry = new TubeBufferGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed );
 
 	// expose internals
 
@@ -52,7 +59,7 @@ TubeGeometry.prototype.constructor = TubeGeometry;
 
 // TubeBufferGeometry
 
-function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed ) {
+function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed ) {
 
 	BufferGeometry.call( this );
 
@@ -63,12 +70,14 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 		tubularSegments: tubularSegments,
 		radius: radius,
 		radialSegments: radialSegments,
+		radialOffset: radialOffset,
 		closed: closed
 	};
 
 	tubularSegments = tubularSegments || 64;
 	radius = radius || 1;
 	radialSegments = radialSegments || 8;
+	radialOffset = radialOffset || 0;
 	closed = closed || false;
 
 	var frames = path.computeFrenetFrames( tubularSegments, closed );
@@ -149,7 +158,7 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 
 		for ( j = 0; j <= radialSegments; j ++ ) {
 
-			var v = j / radialSegments * Math.PI * 2;
+			var v = j / radialSegments * Math.PI * 2 + radialOffset;
 
 			var sin = Math.sin( v );
 			var cos = - Math.cos( v );
