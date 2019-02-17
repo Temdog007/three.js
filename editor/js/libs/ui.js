@@ -764,6 +764,7 @@ UI.Number.prototype.setRange = function ( min, max ) {
 UI.Number.prototype.setUnit = function ( unit ) {
 
 	this.unit = unit;
+	this.setValue( this.getValue() );
 
 	return this;
 
