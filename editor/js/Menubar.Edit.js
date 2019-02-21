@@ -95,7 +95,9 @@ Menubar.Edit = function ( editor ) {
 
 		if ( object.parent === null ) return; // avoid cloning the camera or scene
 
+		var oldUuid = object.uuid;
 		object = object.clone();
+		editor.cloneScripts(oldUuid, object.uuid);
 
 		editor.execute( new AddObjectCommand( editor, object ) );
 
