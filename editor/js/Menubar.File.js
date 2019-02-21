@@ -149,7 +149,7 @@ Menubar.File = function ( editor ) {
 
 				if ( object.uuid == uuid ) {
 
-					object.scripts = scripts[ uuid ];
+					output.scripts = scripts[ uuid ];
 					break;
 
 				}
