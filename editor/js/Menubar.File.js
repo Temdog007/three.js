@@ -183,6 +183,13 @@ Menubar.File = function ( editor ) {
 
 		var output = editor.scene.toJSON();
 
+		// save scripts if enabled
+		if ( config.getKey( 'settings/exportScriptsToObject' ) === true ) {
+
+			output.scripts = editor.scripts;
+
+		}
+
 		try {
 
 			output = JSON.stringify( output, parseNumber, '\t' );
