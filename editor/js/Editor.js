@@ -297,8 +297,9 @@ Editor.prototype = {
 				copiedScripts.push( JSON.parse( JSON.stringify( scripts[ i ] ) ) );
 
 			}
-			scripts[ newUuid ] = copiedScripts;
+			this.scripts[ newUuid ] = copiedScripts;
 
+			this.signals.scriptAdded.dispatch( );
 		}
 
 	},

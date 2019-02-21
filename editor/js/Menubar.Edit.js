@@ -97,9 +97,9 @@ Menubar.Edit = function ( editor ) {
 
 		var oldUuid = object.uuid;
 		object = object.clone();
-		editor.cloneScripts( oldUuid, object.uuid );
 
 		editor.execute( new AddObjectCommand( editor, object ) );
+		editor.cloneScripts( oldUuid, object.uuid );
 
 	} );
 	options.add( option );
