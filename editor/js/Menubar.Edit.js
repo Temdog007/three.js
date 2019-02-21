@@ -97,7 +97,7 @@ Menubar.Edit = function ( editor ) {
 
 		var oldUuid = object.uuid;
 		object = object.clone();
-		editor.cloneScripts(oldUuid, object.uuid);
+		editor.cloneScripts( oldUuid, object.uuid );
 
 		editor.execute( new AddObjectCommand( editor, object ) );
 
@@ -126,7 +126,7 @@ Menubar.Edit = function ( editor ) {
 	var option = new UI.Row();
 	option.setClass( 'option' );
 	option.setTextContent( strings.getKey( 'menubar/edit/minify_shaders' ) );
-	option.onClick( function() {
+	option.onClick( function () {
 
 		var root = editor.selected || editor.scene;
 
@@ -135,7 +135,7 @@ Menubar.Edit = function ( editor ) {
 
 		var path = [];
 
-		function getPath ( object ) {
+		function getPath( object ) {
 
 			path.length = 0;
 
@@ -158,12 +158,12 @@ Menubar.Edit = function ( editor ) {
 				try {
 
 					var shader = glslprep.minifyGlsl( [
-							material.vertexShader, material.fragmentShader ] );
+						material.vertexShader, material.fragmentShader ] );
 
 					cmds.push( new SetMaterialValueCommand( editor, object, 'vertexShader', shader[ 0 ] ) );
 					cmds.push( new SetMaterialValueCommand( editor, object, 'fragmentShader', shader[ 1 ] ) );
 
-					++nMaterialsChanged;
+					++ nMaterialsChanged;
 
 				} catch ( e ) {
 
