@@ -596,7 +596,13 @@ var Loader = function ( editor ) {
 
 				var result = loader.parse( data );
 
-				if ( result.isScene ) {
+				if ( Array.isArray( data.scripts ) === true ) {
+
+					editor.scripts[ result.uuid ] = data.scripts;
+
+				}
+
+				if ( result instanceof THREE.Scene ) {
 
 					editor.execute( new SetSceneCommand( editor, result ) );
 
