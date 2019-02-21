@@ -27,7 +27,9 @@ var Config = function () {
 		'settings/shortcuts/rotate': 'e',
 		'settings/shortcuts/scale': 'r',
 		'settings/shortcuts/undo': 'z',
-		'settings/shortcuts/focus': 'f'
+		'settings/shortcuts/focus': 'f',
+
+		'settings/exportScriptsToObject': false,
 	};
 
 	if ( window.localStorage[ name ] === undefined ) {

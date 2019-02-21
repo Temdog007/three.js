@@ -141,6 +141,23 @@ Menubar.File = function ( editor ) {
 
 		var output = object.toJSON();
 
+		// save scripts if enabled
+		if ( config.getKey( 'settings/exportScriptsToObject' ) === true ) {
+
+			var scripts = editor.scripts;
+			for ( var uuid in scripts ) {
+
+				if ( object.uuid == uuid ) {
+
+					output.scripts = scripts[ uuid ];
+					break;
+
+				}
+
+			}
+
+		}
+
 		try {
 
 			output = JSON.stringify( output, parseNumber, '\t' );
@@ -219,6 +236,7 @@ Menubar.File = function ( editor ) {
 
 			// forceIndices: true, forcePowerOfTwoTextures: true
 			// to allow compatibility with facebook
+
 		}, { binary: true, forceIndices: true, forcePowerOfTwoTextures: true } );
 
 	} );
@@ -359,6 +377,7 @@ Menubar.File = function ( editor ) {
 					'			document.body.appendChild( button );',
 					''
 				].join( '\n' );
+
 			}
 
 			content = content.replace( '\n\t\t\t/* edit button */\n', editButton );

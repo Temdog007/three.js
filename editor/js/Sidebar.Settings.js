@@ -77,6 +77,20 @@ Sidebar.Settings = function ( editor ) {
 	container.add( new Sidebar.Settings.Shortcuts( editor ) );
 	container.add( new Sidebar.Settings.Viewport( editor ) );
 
+	// export scripts with objects
+
+	var exportScriptToObjectRow = new UI.Row().setMarginTop( "10px" );
+	container.add( exportScriptToObjectRow );
+
+	exportScriptToObjectRow.add( new UI.Text( strings.getKey( 'sidebar/settings/exportObject' ) ).setWidth( '200px' ) );
+
+	var exportScriptToObject = new UI.THREE.Boolean( config.getKey( 'settings/exportScriptsToObject' ) ).onChange( function () {
+
+		config.setKey( 'settings/exportScriptsToObject', exportScriptToObject.getValue() );
+
+	} );
+	exportScriptToObjectRow.add( exportScriptToObject );
+
 	return container;
 
 };

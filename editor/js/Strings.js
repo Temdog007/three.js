@@ -287,6 +287,8 @@ var Strings = function ( config ) {
 			'sidebar/settings/shortcuts/undo': 'Undo',
 			'sidebar/settings/shortcuts/focus': 'Focus',
 
+			"sidebar/settings/exportObject": 'Export Scripts to Object',
+
 			'sidebar/settings/viewport/grid': 'Grid',
 
 			'sidebar/history/history': 'HISTORY',
