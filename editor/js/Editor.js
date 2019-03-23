@@ -77,6 +77,7 @@ var Editor = function () {
 	this.history = new History( this );
 	this.storage = new Storage();
 	this.strings = new Strings( this.config );
+	this.fonts = new Fonts();
 
 	this.loader = new Loader( this );
 
