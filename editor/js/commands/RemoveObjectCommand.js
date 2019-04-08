@@ -33,6 +33,7 @@ RemoveObjectCommand.prototype = {
 		var scope = this.editor;
 		this.object.traverse( function ( child ) {
 
+			scope.removeCamera( child );
 			scope.removeHelper( child );
 
 		} );
@@ -54,6 +55,7 @@ RemoveObjectCommand.prototype = {
 			if ( child.geometry !== undefined ) scope.addGeometry( child.geometry );
 			if ( child.material !== undefined ) scope.addMaterial( child.material );
 
+			scope.addCamera( child );
 			scope.addHelper( child );
 
 		} );
