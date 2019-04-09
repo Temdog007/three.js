@@ -334,7 +334,6 @@ var Viewport = function ( editor ) {
 
 	signals.cameraChanged.add( function () {
 
-		updateOrthographicCamera();
 		render();
 
 	} );
@@ -344,7 +343,6 @@ var Viewport = function ( editor ) {
 		viewOrtho = ! viewOrtho;
 		if ( viewOrtho ) {
 
-			updateOrthographicCamera();
 			editor.camera.name = "Camera (Orthographic)";
 
 		} else {
@@ -590,13 +588,6 @@ var Viewport = function ( editor ) {
 
 	requestAnimationFrame( animate );
 
-	function updateOrthographicCamera() {
-
-		orthographicCamera.position.copy( editor.camera.position );
-		orthographicCamera.quaternion.copy( editor.camera.quaternion );
-
-	}
-
 	//
 
 	//https://stackoverflow.com/questions/48758959/what-is-required-to-convert-threejs-perspective-camera-to-orthographic
@@ -622,7 +613,9 @@ var Viewport = function ( editor ) {
 			orthographicCamera.near = camera.near;
 			orthographicCamera.far = camera.far;
 			orthographicCamera.updateProjectionMatrix();
-			updateOrthographicCamera();
+
+			orthographicCamera.position.copy( editor.camera.position );
+			orthographicCamera.quaternion.copy( editor.camera.quaternion );
 
 		} else {
 
