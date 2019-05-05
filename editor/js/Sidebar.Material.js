@@ -301,7 +301,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialMatcapMapRow = new UI.Row();
 	var materialMatcapMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialMatcapMap = new UI.Texture().onChange( update );
+	var materialMatcapMap = new UI.Texture(editor).onChange( update );
 
 	materialMatcapMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/matcap' ) ).setWidth( '90px' ) );
 	materialMatcapMapRow.add( materialMatcapMapEnabled );
@@ -453,7 +453,7 @@ Sidebar.Material = function ( editor ) {
 
 	var materialGradientMapRow = new UI.Row();
 	var materialGradientMapEnabled = new UI.Checkbox( false ).onChange( update );
-	var materialGradientMap = new UI.Texture().onChange( update );
+	var materialGradientMap = new UI.Texture(editor).onChange( update );
 
 	materialGradientMapRow.add( new UI.Text( strings.getKey( 'sidebar/material/gradientmap' ) ).setWidth( '90px' ) );
 	materialGradientMapRow.add( materialGradientMapEnabled );

@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.THREE = {})));
-}(this, (function (exports) { 'use strict';
+	(global = global || self, factory(global.THREE = {}));
+}(this, function (exports) { 'use strict';
 
 	// Polyfills
 
@@ -22357,7 +22357,7 @@
 			if ( isPresenting() ) {
 
 				var eyeParameters = device.getEyeParameters( 'left' );
-				renderWidth = 2 * eyeParameters.renderWidth * framebufferScaleFactor;
+				renderWidth = eyeParameters.renderWidth * framebufferScaleFactor;
 				renderHeight = eyeParameters.renderHeight * framebufferScaleFactor;
 
 				currentPixelRatio = renderer.getPixelRatio();
@@ -22367,6 +22367,9 @@
 
 				cameraL.viewport.set( 0, 0, renderWidth / 2, renderHeight );
 				cameraR.viewport.set( renderWidth / 2, 0, renderWidth / 2, renderHeight );
+
+				cameraL.viewport.set( 0, 0, renderWidth, renderHeight );
+				cameraR.viewport.set( renderWidth, 0, renderWidth, renderHeight );
 
 				animation.start();
 
@@ -48936,6 +48939,7 @@
 	exports.CircleGeometry = CircleGeometry;
 	exports.CircleBufferGeometry = CircleBufferGeometry;
 	exports.BoxGeometry = BoxGeometry;
+	exports.CubeGeometry = BoxGeometry;
 	exports.BoxBufferGeometry = BoxBufferGeometry;
 	exports.BoxGeometry = BoxGeometry;
 	exports.BoxHelper = BoxHelper;
@@ -49260,7 +49264,6 @@
 	exports.SubtractiveBlending = SubtractiveBlending;
 	exports.TangentSpaceNormalMap = TangentSpaceNormalMap;
 	exports.ObjectSpaceNormalMap = ObjectSpaceNormalMap;
-	exports.CubeGeometry = BoxGeometry;
 	exports.Face4 = Face4;
 	exports.LineStrip = LineStrip;
 	exports.LinePieces = LinePieces;
@@ -49321,4 +49324,4 @@
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
