@@ -20,6 +20,7 @@ var Viewport = function ( editor ) {
 	var camera = editor.camera;
 	var scene = editor.scene;
 	var sceneHelpers = editor.sceneHelpers;
+	var tempScene;
 
 	var objects = [];
 
@@ -275,6 +276,27 @@ var Viewport = function ( editor ) {
 	} );
 
 	// signals
+
+	signals.tempSceneChanged.add( function ( s ) {
+
+		tempScene = s;
+		if ( tempScene ) {
+
+			controls.enabled = false;
+			transformControls.enabled = false;
+			signals.objectSelected.active = false;
+			
+
+		} else {
+
+			controls.enabled = true;
+			transformControls.enabled = true;
+			signals.objectSelected.active = true;
+
+		}
+		render();
+
+	} );
 
 	signals.editorCleared.add( function () {
 
@@ -572,6 +594,12 @@ var Viewport = function ( editor ) {
 
 	function render() {
 
+		if ( tempScene ) {
+
+			scene.add( tempScene );
+
+		}
+		
 		scene.updateMatrixWorld();
 		renderer.render( scene, camera );
 
@@ -583,6 +611,12 @@ var Viewport = function ( editor ) {
 				renderer.render( sceneHelpers, camera );
 
 			}
+
+		}
+
+		if ( tempScene ) {
+
+			scene.remove( tempScene );
 
 		}
 

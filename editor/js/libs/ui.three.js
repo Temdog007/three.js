@@ -618,9 +618,17 @@ UI.Points2.prototype.createPointRow = function ( x, y ) {
 
 };
 
-UI.Points3 = function () {
+UI.Points3 = function (editor) {
 
 	Points.call( this, UI.Points3.addRow.bind( this ) );
+
+	this.editButton = new UI.Button( "edit" ).setMarginLeft( '72px' ).onClick(UI.Points3.toggleEdit.bind( this ));
+	this.editButton.dom.className = 'editButton';
+	this.dom.children[1].appendChild(this.editButton.dom);
+
+	this.editor = editor;
+
+	this.onEditCallback = null;
 
 	return this;
 
@@ -644,6 +652,101 @@ UI.Points3.addRow = function () {
 	}
 
 	this.update();
+
+};
+
+UI.Points3.toggleEdit = (function() {
+	
+	var scene = new THREE.Scene();
+	scene.visible = false;
+	scene.background = new THREE.Color( 0x808080 );
+	var geometry = new THREE.SphereBufferGeometry();
+	var material = new THREE.MeshBasicMaterial( {
+		color: 0,
+		side: THREE.BackSide,
+		transparent: true,
+		opacity: 0.75
+	} );
+
+	var line = new THREE.Line( new THREE.BufferGeometry(), new THREE.LineBasicMaterial( {
+		color: 0xff0000
+	} ) );
+
+	return function(){
+		if ( this.onEditCallback === null ) return;
+
+		var camera = this.editor.camera;
+		scene.visible = ! scene.visible;
+
+		if ( scene.visible ) {
+
+			this.editButton.dom.setAttribute( 'editing', '' );
+			this.editButton.dom.textContent = 'DONE';
+			scene.children.length = 0;
+
+			var points = this.getValue();
+			
+
+			function resize( _renderer, _scene, camera ) {
+
+				this.scale.setScalar( camera.position.distanceTo( this.position ) * 0.01 );
+
+			}
+
+			var positions = [];
+			for ( var i = 0; i < points.length; ++ i ) {
+
+				var sphere = new THREE.Mesh( geometry, material );
+				sphere.onBeforeRender = resize;
+				var p = points[ i ];
+				sphere.position.copy( p );
+				positions.push( p );
+				scene.add( sphere );
+
+			}
+
+			var scope = this;
+			function updateLine() {
+
+				var positions = line.geometry.attributes.position;
+				var children = scene.children;
+				for ( var i = 0; i < children.length - 1; ++ i ) {
+
+					var p = children[ i ].position;
+					positions.setXYZ( i, p.x, p.y, p.z );
+
+				}
+				positions.needsUpdate = true;
+				scope.onEditCallback( scene );
+
+			}
+
+			// don't drag the line
+			this.drag = new THREE.DragControls( scene.children.slice( 0 ), camera, document.querySelector( 'canvas' ) );
+			this.drag.addEventListener( 'drag', updateLine );
+			this.drag.addEventListener( 'dragend', updateLine );
+
+			line.geometry.setFromPoints(positions);
+			line.computeLineDistances();
+			scene.add( line );
+
+		} else {
+
+			this.editButton.dom.removeAttribute( 'editing' );
+			this.editButton.dom.textContent = 'EDIT';
+			this.drag.dispose();
+
+		}
+
+		this.onEditCallback( scene );
+	};
+})();
+
+UI.Points3.prototype.onEdit = function ( callback ) {
+
+	this.onEditCallback = callback;
+
+	return this;
 
 };
 
