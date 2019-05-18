@@ -115,21 +115,26 @@
         return this.anySphere(intersectsPlane);
     },
 
-    getBoundingBox: function(target){
-        if ( target === undefined ) {
+    getBoundingBox: function(){
+        var box1 = new THREE.Box3();
+        var box2 = new THREE.Box3();
 
-			console.warn( 'THREE.Capsule: .getBoundingBox() target is required' );
-			target = new THREE.Box3();
+        return function getBoundingBox(target){
+            if ( target === undefined ) {
 
-		}
+                console.warn( 'THREE.Capsule: .getBoundingBox() target is required' );
+                target = new THREE.Box3();
 
-        var sphere1 = this.sphere1;
-        var sphere2 = this.sphere2;
-		target.set( sphere1.center, sphere2.center );
-        target.expandByScalar( sphere1.center.distanceTo(sphere2.center) - (sphere1.radius + sphere2.radius) );
+            }
 
-        return target;
-    },
+            this.sphere1.getBoundingBox(box1);
+            this.sphere2.getBoundingBox(box2);
+
+            target.makeEmpty().union(box1).union(box2);
+
+            return target;
+        }
+    }(),
     
     getBoundingSphere: function(target){
         if ( target === undefined ) {

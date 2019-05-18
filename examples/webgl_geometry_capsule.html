@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - geometry - capsule<br>Author Temdog007</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="../build/three.js"></script>
+
+		<script src="js/math/Capsule.js"></script>
+		<script src="js/utils/BufferGeometryUtils.js"></script>
+		<script src="js/geometries/CapsuleGeometry.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
+		<script src="js/libs/dat.gui.min.js"></script>
+
+		<script>
+
+			var container, player;
+
+			var camera, scene, renderer;
+
+			var params, capsule;
+
+			init();
+
+			function init() {
+
+				params = {
+					widthSegments : 16,
+					heightSegments : 16,
+					side : 'FrontSide'
+				}
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xf0f0f0 );
+
+				var sphere1 = new THREE.Sphere(new THREE.Vector3(0, 1, 0), 1);
+				var sphere2 = new THREE.Sphere(new THREE.Vector3(0, -1, 0), 1);
+
+				capsule = new THREE.Capsule(sphere1, sphere2);
+
+				player = new THREE.Mesh(new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments), new THREE.MeshToonMaterial({
+					color : 0x0000ff,
+					side : THREE[params.side]
+				}));
+				scene.add(player);
+
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 100 );
+				camera.position.set( 0, 0, 10 );
+				player.add(camera);
+
+				var light = new THREE.PointLight( 0xffffff, 0.8 );
+				camera.add( light );
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				var controls = new THREE.OrbitControls(camera, renderer.domElement);
+				controls.addEventListener('change', render);
+				window.addEventListener( 'resize', onWindowResize, false );
+
+				var gui = new dat.GUI();
+
+				var folder = gui.addFolder("Geometry");
+				folder.add( params, 'widthSegments', 3, 32 ).step(1).onChange( updateGeometry);
+				folder.add( params, 'heightSegments', 6, 32 ).step(1).onChange( updateGeometry);
+				folder.add( sphere1, 'radius', 0.01, 3 ).name('topRadius').onChange( updateGeometry);
+				folder.add( sphere2, 'radius', 0.01, 3 ).name('bottomRadius').onChange( updateGeometry);
+
+				folder = gui.addFolder("Material");
+				folder.add(params, 'side', ['FrontSide', 'BackSide', 'DoubleSide']).onChange(function(){
+
+					player.material.side = THREE[params.side];
+					render();
+
+				});
+
+				render();
+			}
+
+			//
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			}
+
+			function updateGeometry(){
+				player.geometry.dispose();
+
+				player.geometry = new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments);
+				render();
+			}
+
+		</script>
+
+	</body>
+</html>
