@@ -45,12 +45,12 @@ THREE.CapsuleBufferGeometry = function(capsule, widthSegments, heightSegments)
     var m = new THREE.Matrix4();
     m.lookAt(center2, center1, up);
 
-    var sphere1 =  new THREE.SphereBufferGeometry(radius1, widthSegments, heightSegments / 3, 0, Math.PI * 2, 0, Math.PI * 0.5);
+    var sphere1 =  new THREE.SphereBufferGeometry(radius1, widthSegments, heightSegments / 2, 0, Math.PI * 2, 0, Math.PI * 0.5);
     sphere1.rotateX(-Math.PI * 0.5);
     sphere1.applyMatrix(m);
     sphere1.translate(center1.x, center1.y, center1.z);
     
-    var sphere2 =  new THREE.SphereBufferGeometry(radius2, widthSegments, heightSegments / 3, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
+    var sphere2 =  new THREE.SphereBufferGeometry(radius2, widthSegments, heightSegments / 2, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
     sphere2.rotateX(-Math.PI * 0.5);
     sphere2.applyMatrix(m);
     sphere2.translate(center2.x, center2.y, center2.z);

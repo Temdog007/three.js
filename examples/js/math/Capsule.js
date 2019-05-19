@@ -46,7 +46,7 @@
             for(var i = 0; i <= 1; i += precision)
             {
                 sphere.center.lerpVectors(sphere1.center, sphere2.center, i);
-                sphere.radius += sphere1.radius + (sphere2.radius - sphere1.radius) * i;
+                sphere.radius = sphere1.radius + (sphere2.radius - sphere1.radius) * i;
 
                 if(action(sphere) === true)
                 {
@@ -69,7 +69,7 @@
             for(var i = 0; i <= 1; i += precision)
             {
                 sphere.center.lerpVectors(sphere1.center, sphere2.center, i);
-                sphere.radius += sphere1.radius + (sphere2.radius - sphere1.radius) * i;
+                sphere.radius = sphere1.radius + (sphere2.radius - sphere1.radius) * i;
 
                 results.push(action(sphere));
             }
@@ -103,7 +103,7 @@
 
     intersectsBox: function(box){
         function intersectsBox(sphere){
-            return box.intersectsBox(sphere)
+            return sphere.intersectsBox(box)
         }
         return this.anySphere(intersectsBox);
     },
@@ -113,6 +113,14 @@
             return sphere.intersectsPlane(plane);
         }
         return this.anySphere(intersectsPlane);
+    },
+
+    intersectsCapsule: function(capsule){
+        var s = new THREE.Sphere();
+        function intersectsSphere(sphere){
+            return capsule.intersectsSphere(s.copy(sphere));
+        }
+        return this.anySphere(intersectsSphere);
     },
 
     getBoundingBox: function(){
@@ -154,13 +162,13 @@
     },
 
     applyMatrix4: function(matrix){
-        this.spehre1.applyMatrix4(matrix);
-        this.spehre2.applyMatrix4(matrix);
+        this.sphere1.applyMatrix4(matrix);
+        this.sphere2.applyMatrix4(matrix);
         return this;
     },
 
     translate: function(offset){
-        this.spehre1.translate(offset);
+        this.sphere1.translate(offset);
         this.sphere2.translate(offset);
 
         return this;
