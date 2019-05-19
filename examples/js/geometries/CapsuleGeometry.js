@@ -41,22 +41,24 @@ THREE.CapsuleBufferGeometry = function(capsule, widthSegments, heightSegments)
     var radius2 = capsule.sphere2.radius;
     var center2 = capsule.sphere2.center;
 
-    var v = new THREE.Vector3().subVectors(center2, center1);
-    var length = v.length();
-
-    var u = new THREE.Vector3(0, length, 0);
+    var up = new THREE.Vector3(0, 1, 0);
+    var m = new THREE.Matrix4();
+    m.lookAt(center2, center1, up);
 
     var sphere1 =  new THREE.SphereBufferGeometry(radius1, widthSegments, heightSegments / 3, 0, Math.PI * 2, 0, Math.PI * 0.5);
-    sphere1.translate(0, length * 0.5, 0);
+    sphere1.rotateX(-Math.PI * 0.5);
+    sphere1.applyMatrix(m);
+    sphere1.translate(center1.x, center1.y, center1.z);
     
     var sphere2 =  new THREE.SphereBufferGeometry(radius2, widthSegments, heightSegments / 3, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
-    sphere2.translate(0, -length * 0.5, 0);
-
-    var sphereVertices = sphere1.attributes.position.count;
+    sphere2.rotateX(-Math.PI * 0.5);
+    sphere2.applyMatrix(m);
+    sphere2.translate(center2.x, center2.y, center2.z);
 
     this.copy(THREE.BufferGeometryUtils.mergeBufferGeometries([sphere1, sphere2]));
 
     //connect spheres
+    var sphereVertices = sphere1.attributes.position.count;
     var indices = Array.prototype.slice.call(this.index.array);
     var start = sphereVertices - widthSegments;
 
@@ -79,23 +81,6 @@ THREE.CapsuleBufferGeometry = function(capsule, widthSegments, heightSegments)
     this.setIndex(indices);
 
     this.computeVertexNormals();
-    
-    // rotate the capsule to the actual sphere points
-    // http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors
-    var cross = new THREE.Vector3().crossVectors(u, v);
-
-    // If the two vectors a parallel, no need to apply quaternion
-    if(cross.x === 0 && cross.y === 0 && cross.z === 0){
-        return;
-    }
-
-    var quaternion = new THREE.Quaternion(u.dot(v), cross.x, cross.y, cross.z);
-    quaternion.w += quaternion.length();
-    quaternion.normalize();
-
-    var matrix = new THREE.Matrix4().makeRotationFromQuaternion(quaternion);
-    this.applyMatrix(matrix);
-
 }
 
 THREE.CapsuleBufferGeometry.prototype = Object.create(THREE.BufferGeometry.prototype);

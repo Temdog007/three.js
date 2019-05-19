@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - geometry - capsule<br>Author Temdog007</title>
+		<title>three.js webgl - geometry - capsule</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
-				font-family: Monospace;
-				background-color: #f0f0f0;
+				color: #000;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+
+				background-color: #fff;
 				margin: 0px;
 				overflow: hidden;
+			}
+
+			#info {
+				color:#000;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+
+			}
+
+			a {
+				color: red;
 			}
 		</style>
 	</head>
 	<body>
+		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - geometry - capsule<br />
+			Author: Temdog007<br/>
+			Drag the edge of the capsules to edit
+		</div>
 
 		<script src="../build/three.js"></script>
 
@@ -21,13 +42,14 @@
 		<script src="js/utils/BufferGeometryUtils.js"></script>
 		<script src="js/geometries/CapsuleGeometry.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>
+		<script src="js/controls/DragControls.js"></script>
 		<script src="js/libs/dat.gui.min.js"></script>
 
 		<script>
 
-			var container, player;
+			var container, capsuleMesh, sphere1, sphere2;
 
-			var camera, scene, renderer;
+			var camera, scene, renderer, orbitControls;
 
 			var params, capsule;
 
@@ -38,7 +60,17 @@
 				params = {
 					widthSegments : 16,
 					heightSegments : 16,
-					side : 'FrontSide'
+					center : function(){
+
+						capsuleMesh.geometry.computeBoundingSphere();
+						var center = capsuleMesh.geometry.boundingSphere.center
+						camera.lookAt(center);
+						orbitControls.target.copy(center);
+
+						updateSpheres();
+						updateCapsule();
+						render();
+					}
 				}
 
 				container = document.createElement( 'div' );
@@ -47,48 +79,89 @@
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xf0f0f0 );
 
-				var sphere1 = new THREE.Sphere(new THREE.Vector3(0, 1, 0), 1);
-				var sphere2 = new THREE.Sphere(new THREE.Vector3(0, -1, 0), 1);
+				capsule = new THREE.Capsule(new THREE.Sphere(new THREE.Vector3(0, 1, 0), 1),  new THREE.Sphere(new THREE.Vector3(0, -1, 0), 1));
 
-				capsule = new THREE.Capsule(sphere1, sphere2);
+				material =new THREE.MeshToonMaterial({
+					color : 0x0000ff
+				});
 
-				player = new THREE.Mesh(new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments), new THREE.MeshToonMaterial({
+				capsuleMesh = new THREE.Mesh(new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments), new THREE.MeshToonMaterial({
 					color : 0x0000ff,
-					side : THREE[params.side]
+					opacity : 0.5
 				}));
-				scene.add(player);
+				scene.add(capsuleMesh);
 
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 100 );
 				camera.position.set( 0, 0, 10 );
-				player.add(camera);
+				capsuleMesh.add(camera);
 
 				var light = new THREE.PointLight( 0xffffff, 0.8 );
 				camera.add( light );
+
+				var material = new THREE.MeshToonMaterial({
+					color : 0x000
+				});
+
+				sphere1 = new THREE.Mesh(new THREE.SphereBufferGeometry(capsule.sphere1.radius, params.widthSegments, params.heightSegments), material);
+				sphere1.position.copy(capsule.sphere1.center);
+
+				sphere2 = new THREE.Mesh(new THREE.SphereBufferGeometry(capsule.sphere2.radius, params.widthSegments, params.heightSegments), material);
+				sphere2.position.copy(capsule.sphere2.center);
+
+				var group = new THREE.Group();
+				group.visible = false;
+				group.add(sphere1, sphere2);
+
+				scene.add(group);
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				var controls = new THREE.OrbitControls(camera, renderer.domElement);
-				controls.addEventListener('change', render);
+				var orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+				orbitControls.addEventListener('change', render);
+				
+				var dragControls = new THREE.DragControls([sphere1, sphere2], camera, renderer.domElement);
+				dragControls.addEventListener('dragstart', function(){
+					orbitControls.enabled = false;
+					render();
+				});
+				dragControls.addEventListener('drag', function(){
+					updateCapsule(true);
+					render();
+				});
+				dragControls.addEventListener('dragend', function(){
+					orbitControls.enabled = true;
+					
+					updateCapsule(true);
+					render();
+				});
+
 				window.addEventListener( 'resize', onWindowResize, false );
 
 				var gui = new dat.GUI();
 
-				var folder = gui.addFolder("Geometry");
-				folder.add( params, 'widthSegments', 3, 32 ).step(1).onChange( updateGeometry);
-				folder.add( params, 'heightSegments', 6, 32 ).step(1).onChange( updateGeometry);
-				folder.add( sphere1, 'radius', 0.01, 3 ).name('topRadius').onChange( updateGeometry);
-				folder.add( sphere2, 'radius', 0.01, 3 ).name('bottomRadius').onChange( updateGeometry);
-
-				folder = gui.addFolder("Material");
-				folder.add(params, 'side', ['FrontSide', 'BackSide', 'DoubleSide']).onChange(function(){
-
-					player.material.side = THREE[params.side];
+				gui.add( params, 'widthSegments', 3, 32 ).step(1).onChange( update);
+				gui.add( params, 'heightSegments', 6, 32 ).step(1).onChange( update);
+				gui.add( capsule.sphere1, 'radius', 0.1, 3 ).name("radius1").onChange( update);
+				gui.add( capsule.sphere2, 'radius', 0.1, 3 ).name("radius2").onChange( update);
+				gui.add(group, 'visible').name('showEdges').onChange(function(){
+					var material = capsuleMesh.material;
+					if(group.visible)
+					{
+						material.transparent = true;
+						material.side = THREE.BackSide;
+					}
+					else
+					{
+						material.transparent = false;
+						material.side = THREE.FrontSide;
+					}
+					
 					render();
-
 				});
+				gui.add(params, 'center');
 
 				render();
 			}
@@ -101,7 +174,13 @@
 				camera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				render();
+			}
 
+			function update(){
+				updateSpheres();
+				updateCapsule();
+				render();
 			}
 
 			function render() {
@@ -110,11 +189,25 @@
 
 			}
 
-			function updateGeometry(){
-				player.geometry.dispose();
+			function updateSpheres(){
+				sphere1.position.copy(capsule.sphere1.center);
+				sphere1.geometry.dispose();
+				sphere1.geometry = new THREE.SphereBufferGeometry(capsule.sphere1.radius, params.widthSegments, params.heightSegments);
 
-				player.geometry = new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments);
-				render();
+				sphere2.position.copy(capsule.sphere2.center);
+				sphere2.geometry.dispose();
+				sphere2.geometry = new THREE.SphereBufferGeometry(capsule.sphere2.radius, params.widthSegments, params.heightSegments);
+			}
+
+			function updateCapsule(updateCapsuleObject){
+
+				if(updateCapsuleObject){
+					capsule.sphere1.center.copy(sphere1.position);
+					capsule.sphere2.center.copy(sphere2.position);
+				}
+
+				capsuleMesh.geometry.dispose();
+				capsuleMesh.geometry = new THREE.CapsuleBufferGeometry(capsule, params.widthSegments, params.heightSegments);
 			}
 
 		</script>
