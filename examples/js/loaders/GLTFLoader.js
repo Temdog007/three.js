@@ -1094,6 +1094,7 @@ THREE.GLTFLoader = ( function () {
 
 	};
 
+	GLTFCubicSplineInterpolant.FactoryMethod.isInterpolantFactoryMethodGLTFCubicSpline = true;
 	GLTFCubicSplineInterpolant.FactoryMethod.type = 'GLTFCubicSplineInterpolant';
 
 	THREE.GLTFCubicSplineInterpolant = GLTFCubicSplineInterpolant;
