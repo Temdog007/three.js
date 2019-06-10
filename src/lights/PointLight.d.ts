@@ -41,5 +41,6 @@ export class PointLight extends Light {
 	decay: number;
 	shadow: PointLightShadow;
 	power: number;
+	isPointLight: true;
 
 }

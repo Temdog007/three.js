@@ -6,5 +6,5 @@ export class SpotLightShadow extends LightShadow {
 
 	camera: PerspectiveCamera;
 	update( light: Light ): void;
-
+	isSpotLightShadow: true;
 }

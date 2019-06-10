@@ -43,8 +43,6 @@ HemisphereLightProbe.prototype = Object.assign( Object.create( LightProbe.protot
 
 		var data = LightProbe.prototype.toJSON.call( this, meta );
 
-		// data.sh = this.sh.toArray(); // todo
-
 		return data;
 
 	}

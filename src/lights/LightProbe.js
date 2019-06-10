@@ -25,7 +25,7 @@ LightProbe.prototype = Object.assign( Object.create( Light.prototype ), {
 
 		Light.prototype.copy.call( this, source );
 
-		this.sh.copy( source.sh );
+		this.sh.fromArray( source.sh );
 		this.intensity = source.intensity;
 
 		return this;
@@ -36,7 +36,7 @@ LightProbe.prototype = Object.assign( Object.create( Light.prototype ), {
 
 		var data = Light.prototype.toJSON.call( this, meta );
 
-		// data.sh = this.sh.toArray(); // todo
+		data.sh = this.sh.toArray();
 
 		return data;
 
