@@ -18,6 +18,9 @@ var Viewport = function ( editor ) {
 	var renderer = null;
 
 	var camera = editor.camera;
+	var orthographicCamera = new THREE.OrthographicCamera();
+	var viewOrtho = false;
+
 	var scene = editor.scene;
 	var sceneHelpers = editor.sceneHelpers;
 	var tempScene;
@@ -357,6 +360,23 @@ var Viewport = function ( editor ) {
 
 	} );
 
+	signals.cameraToggled.add( function () {
+
+		viewOrtho = ! viewOrtho;
+		if ( viewOrtho ) {
+
+			editor.camera.name = "Camera (Orthographic)";
+
+		} else {
+
+			editor.camera.name = "Camera (Perspective)";
+
+		}
+		this.editor.signals.objectChanged.dispatch( editor.camera );
+		render();
+
+	} );
+
 	signals.objectSelected.add( function ( object ) {
 
 		selectionBox.visible = false;
@@ -592,6 +612,10 @@ var Viewport = function ( editor ) {
 
 	//
 
+	//https://stackoverflow.com/questions/48758959/what-is-required-to-convert-threejs-perspective-camera-to-orthographic
+	var lineOfSight = new THREE.Vector3();
+	var distance = new THREE.Vector3();
+
 	function render() {
 
 		if ( tempScene ) {
@@ -600,15 +624,42 @@ var Viewport = function ( editor ) {
 
 		}
 		
+		var cam;
+		if ( camera === editor.camera && viewOrtho === true ) {
+
+			cam = orthographicCamera;
+
+			camera.getWorldDirection( lineOfSight );
+			var depth = distance.copy( camera.position ).negate().dot( lineOfSight );
+			var height = depth * 2 * Math.atan( camera.fov * ( Math.PI / 180 ) * 0.5 );
+			var width = height * camera.aspect;
+
+			orthographicCamera.left = width * - 0.5;
+			orthographicCamera.right = width * 0.5;
+			orthographicCamera.top = height * 0.5;
+			orthographicCamera.bottom = height * - 0.5;
+			orthographicCamera.near = camera.near;
+			orthographicCamera.far = camera.far;
+			orthographicCamera.updateProjectionMatrix();
+
+			orthographicCamera.position.copy( editor.camera.position );
+			orthographicCamera.quaternion.copy( editor.camera.quaternion );
+
+		} else {
+
+			cam = camera;
+
+		}
+
 		scene.updateMatrixWorld();
-		renderer.render( scene, camera );
+		renderer.render( scene, cam );
 
 		if ( renderer instanceof THREE.RaytracingRenderer === false ) {
 
 			if ( camera === editor.camera ) {
 
 				sceneHelpers.updateMatrixWorld();
-				renderer.render( sceneHelpers, camera );
+				renderer.render( sceneHelpers, cam );
 
 			}
 
