@@ -78,7 +78,7 @@ UI.Texture = function ( editor, mapping ) {
 				value = THREE.ClampToEdgeWrapping;
 
 			}
-			editor.execute( new SetTextureValueCommand( texture, 'wrapS', value ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, 'wrapS', value ) );
 
 		}
 
@@ -99,7 +99,7 @@ UI.Texture = function ( editor, mapping ) {
 				value = THREE.ClampToEdgeWrapping;
 
 			}
-			editor.execute( new SetTextureValueCommand( texture, 'wrapT', value ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, 'wrapT', value ) );
 
 		}
 
@@ -114,7 +114,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, 'anisotropy', anis.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, 'anisotropy', anis.getValue() ) );
 
 		}
 
@@ -129,7 +129,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'offset', 'x' ], offsetX.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'offset', 'x' ], offsetX.getValue() ) );
 
 		}
 
@@ -141,7 +141,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'offset', 'y' ], offsetY.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'offset', 'y' ], offsetY.getValue() ) );
 
 		}
 
@@ -156,7 +156,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'repeat', 'x' ], repeatX.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'repeat', 'x' ], repeatX.getValue() ) );
 
 		}
 
@@ -168,7 +168,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'repeat', 'y' ], repeatY.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'repeat', 'y' ], repeatY.getValue() ) );
 
 		}
 
@@ -183,7 +183,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'center', 'x' ], centerX.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'center', 'x' ], centerX.getValue() ) );
 
 		}
 
@@ -195,7 +195,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, [ 'center', 'y' ], centerY.getValue() ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, [ 'center', 'y' ], centerY.getValue() ) );
 
 		}
 
@@ -210,7 +210,7 @@ UI.Texture = function ( editor, mapping ) {
 		var texture = scope.getValue();
 		if ( texture !== null ) {
 
-			editor.execute( new SetTextureValueCommand( texture, 'rotation', rotation.getValue() * ( Math.PI / 180 ) ) );
+			editor.execute( new SetTextureValueCommand( editor, texture, 'rotation', rotation.getValue() * ( Math.PI / 180 ) ) );
 
 		}
 

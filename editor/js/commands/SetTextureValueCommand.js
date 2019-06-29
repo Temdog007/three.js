@@ -10,9 +10,9 @@
  * @constructor
  */
 
-var SetTextureValueCommand = function ( texture, attributeNames, newValue ) {
+var SetTextureValueCommand = function ( editor, texture, attributeNames, newValue ) {
 
-	Command.call( this );
+	Command.call( this, editor );
 
 	this.type = 'SetTextureValueCommand';
 	this.updatable = true;
