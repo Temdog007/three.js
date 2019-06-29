@@ -94,6 +94,12 @@ UI.Element.prototype = {
 
 	},
 
+	getStyle: function ( style ) {
+
+		return this.dom.style[ style ];
+
+	},
+
 	setDisabled: function ( value ) {
 
 		this.dom.disabled = value;
@@ -127,6 +133,14 @@ properties.forEach( function ( property ) {
 		this.setStyle( property, arguments );
 
 		return this;
+
+	};
+
+	var method = 'get' + property.substr( 0, 1 ).toUpperCase() + property.substr( 1, property.length );
+
+	UI.Element.prototype[ method ] = function () {
+
+		return this.getStyle( property );
 
 	};
 
@@ -179,6 +193,21 @@ UI.Div = function () {
 
 UI.Div.prototype = Object.create( UI.Element.prototype );
 UI.Div.prototype.constructor = UI.Div;
+
+// Fieldset
+
+UI.Fieldset = function ( name ) {
+
+	UI.Element.call( this );
+	this.dom = document.createElement( 'fieldset' );
+	var legend = document.createElement( 'legend' );
+	legend.innerHTML = name;
+	this.dom.appendChild( legend );
+
+};
+
+UI.Fieldset.prototype = Object.create( UI.Element.prototype );
+UI.Fieldset.prototype.constructor = UI.Row;
 
 // Row
 
