@@ -155,7 +155,7 @@ Sidebar.Script = function ( editor ) {
 
 	function onScriptLoad( data ) {
 
-		editor.execute( new AddScriptCommand( editor.selected, data ) );
+		editor.execute( new AddScriptCommand( editor, editor.selected, data ) );
 
 	}
 
