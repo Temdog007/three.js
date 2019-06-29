@@ -109,7 +109,7 @@ Sidebar.Geometry = function ( editor ) {
 
 		if ( copiedGeometry === undefined ) return;
 
-		editor.execute( new SetGeometryCommand( editor.selected, copiedGeometry ) );
+		editor.execute( new SetGeometryCommand( editor, editor.selected, copiedGeometry ) );
 
 	} ) );
 
@@ -135,7 +135,7 @@ Sidebar.Geometry = function ( editor ) {
 
 		if ( clonedGeometry === undefined ) return;
 
-		editor.execute( new AppendGeometryCommand( editor.selected, clonedGeometry ) );
+		editor.execute( new AppendGeometryCommand( editor, editor.selected, clonedGeometry ) );
 
 	} ) );
 

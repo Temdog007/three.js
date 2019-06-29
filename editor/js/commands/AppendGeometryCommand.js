@@ -8,9 +8,9 @@
  * @constructor
  */
 
-var AppendGeometryCommand = function ( object, newGeometry ) {
+var AppendGeometryCommand = function ( editor, object, newGeometry ) {
 
-	Command.call( this );
+	Command.call( this, editor );
 
 	this.type = 'AppendGeometryCommand';
 	this.name = 'Append Geometry';
