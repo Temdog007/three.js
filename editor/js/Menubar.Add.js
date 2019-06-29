@@ -174,10 +174,19 @@ Menubar.Add = function ( editor ) {
 		var geometry = new THREE.RingBufferGeometry( 0.5, 1, 8, 1, 0, Math.PI * 2 );
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
 		mesh.name = 'Ring';
+		var option = new UI.Row();
+		option.setClass( 'option' );
+		option.setTextContent( strings.getKey( 'menubar/add/empty' ) );
+		option.onClick( function () {
 
-		editor.execute( new AddObjectCommand( editor, mesh ) );
+			var geometry = new THREE.BufferGeometry();
+			var mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
+			mesh.name = 'Empty';
 
-	} );
+			editor.execute( new AddObjectCommand( editor, mesh ) );
+
+		} );
+	});
 	options.add( option );
 
 	// Sphere
