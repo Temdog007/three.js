@@ -5958,7 +5958,8 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 			var parameters = this.geometry.parameters;
 
-			if ( parameters !== undefined && parameters.shapes !== undefined ) {
+			// Don't serilalize shapes for TextGeometry because it won't be used.
+			if ( parameters !== undefined && parameters.shapes !== undefined && this.geometry.type != "TextGeometry" && this.geometry.type != "TextBufferGeometry" ) {
 
 				var shapes = parameters.shapes;
 
@@ -28278,23 +28279,30 @@ DodecahedronBufferGeometry.prototype.constructor = DodecahedronBufferGeometry;
 
 // TubeGeometry
 
-function TubeGeometry( path, tubularSegments, radius, radialSegments, closed, taper ) {
+function TubeGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed ) {
 
 	Geometry.call( this );
 
 	this.type = 'TubeGeometry';
+
+	// backwards compatibility
+	if ( radialOffset !== undefined && typeof radialOffset == "boolean" ) {
+
+		closed = radialOffset;
+		radialOffset = undefined;
+
+	}
 
 	this.parameters = {
 		path: path,
 		tubularSegments: tubularSegments,
 		radius: radius,
 		radialSegments: radialSegments,
+		radialOffset: radialOffset,
 		closed: closed
 	};
 
-	if ( taper !== undefined ) console.warn( 'THREE.TubeGeometry: taper has been removed.' );
-
-	var bufferGeometry = new TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed );
+	var bufferGeometry = new TubeBufferGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed );
 
 	// expose internals
 
@@ -28314,7 +28322,7 @@ TubeGeometry.prototype.constructor = TubeGeometry;
 
 // TubeBufferGeometry
 
-function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, closed ) {
+function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, radialOffset, closed ) {
 
 	BufferGeometry.call( this );
 
@@ -28325,12 +28333,14 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 		tubularSegments: tubularSegments,
 		radius: radius,
 		radialSegments: radialSegments,
+		radialOffset: radialOffset,
 		closed: closed
 	};
 
 	tubularSegments = tubularSegments || 64;
 	radius = radius || 1;
 	radialSegments = radialSegments || 8;
+	radialOffset = radialOffset || 0;
 	closed = closed || false;
 
 	var frames = path.computeFrenetFrames( tubularSegments, closed );
@@ -28411,7 +28421,7 @@ function TubeBufferGeometry( path, tubularSegments, radius, radialSegments, clos
 
 		for ( j = 0; j <= radialSegments; j ++ ) {
 
-			var v = j / radialSegments * Math.PI * 2;
+			var v = j / radialSegments * Math.PI * 2 + radialOffset;
 
 			var sin = Math.sin( v );
 			var cos = - Math.cos( v );
@@ -30518,6 +30528,7 @@ function TextGeometry( text, parameters ) {
 	Geometry.call( this );
 
 	this.type = 'TextGeometry';
+	this.text = text;
 
 	this.parameters = {
 		text: text,
@@ -30532,11 +30543,24 @@ function TextGeometry( text, parameters ) {
 TextGeometry.prototype = Object.create( Geometry.prototype );
 TextGeometry.prototype.constructor = TextGeometry;
 
+TextGeometry.prototype.toJSON = function () {
+
+	var data = Geometry.prototype.toJSON.call( this );
+
+	data.text = this.text;
+	data.options = data.parameters;
+	delete data.parameters;
+
+	return data;
+};
+
 // TextBufferGeometry
 
 function TextBufferGeometry( text, parameters ) {
 
 	parameters = parameters || {};
+
+	this.text = text;
 
 	var font = parameters.font;
 
@@ -30567,6 +30591,16 @@ function TextBufferGeometry( text, parameters ) {
 
 TextBufferGeometry.prototype = Object.create( ExtrudeBufferGeometry.prototype );
 TextBufferGeometry.prototype.constructor = TextBufferGeometry;
+
+TextBufferGeometry.prototype.toJSON = function () {
+
+	var data = BufferGeometry.prototype.toJSON.call( this );
+
+	data.text = this.text;
+	delete data.shapes;
+
+	return data;
+};
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -38895,6 +38929,7 @@ Object.assign( ObjectLoader.prototype, {
 							data.tubularSegments,
 							data.radius,
 							data.radialSegments,
+							data.radialOffset,
 							data.closed
 						);
 
@@ -38944,7 +38979,6 @@ Object.assign( ObjectLoader.prototype, {
 
 						break;
 
-
 					case 'ExtrudeGeometry':
 					case 'ExtrudeBufferGeometry':
 
@@ -38971,6 +39005,16 @@ Object.assign( ObjectLoader.prototype, {
 							data.options
 						);
 
+						break;
+
+					case 'TextGeometry':
+					case 'TextBufferGeometry':
+
+						data.options.font = new THREE.Font( data.options.font.data );
+						geometry = new Geometries[ data.type ](
+							data.text,
+							data.options
+						);
 						break;
 
 					case 'BufferGeometry':
