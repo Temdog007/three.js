@@ -227,6 +227,30 @@ Menubar.Add = function ( editor ) {
 	} );
 	options.add( option );
 
+	// Text
+
+	var option = new UI.Row();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/add/text' ) );
+	option.onClick( function () {
+
+		var geometry = new THREE.TextBufferGeometry( 'three.js', {
+			font : editor.fonts.gentilis_bold,
+			size : 1,
+			curveSegments : 1,
+			height : 0.5,
+			bevelEnabled : true,
+			bevelSize : 0.05,
+			bevelThickness : 0.05
+		} );
+		var mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
+		mesh.name = 'Text';
+
+		editor.execute( new AddObjectCommand( mesh ) );
+
+	} );
+	options.add( option );
+
 	// Torus
 
 	var option = new UI.Row();

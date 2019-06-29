@@ -44,6 +44,7 @@ var Strings = function ( config ) {
 			'menubar/add/icosahedron': 'Icosahedron',
 			'menubar/add/octahedron': 'Octahedron',
 			'menubar/add/tetrahedron': 'Tetrahedron',
+			'menubar/add/text': 'Text',
 			'menubar/add/torus': 'Torus',
 			'menubar/add/tube': 'Tube',
 			'menubar/add/torusknot': 'TorusKnot',
@@ -189,6 +190,15 @@ var Strings = function ( config ) {
 			'sidebar/geometry/sphere_geometry/philength': 'Phi length',
 			'sidebar/geometry/sphere_geometry/thetastart': 'Theta start',
 			'sidebar/geometry/sphere_geometry/thetalength': 'Theta length',
+
+			'sidebar/geometry/text_geometry/text': 'Text',
+			'sidebar/geometry/text_geometry/bevelenabled': 'Bevel Enabled',
+			'sidebar/geometry/text_geometry/bevelsize': 'Bevel Size',
+			'sidebar/geometry/text_geometry/bevelthickness': 'Bevel Thickness',
+			'sidebar/geometry/text_geometry/curvesegments': 'Curve Segments',
+			'sidebar/geometry/text_geometry/height': 'Height',
+			'sidebar/geometry/text_geometry/size': 'Size',
+			'sidebar/geometry/text_geometry/font': 'Font',
 
 			'sidebar/geometry/torus_geometry/radius': 'Radius',
 			'sidebar/geometry/torus_geometry/tube': 'Tube',

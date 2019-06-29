@@ -19,6 +19,7 @@
  */
 
 import { Geometry } from '../core/Geometry.js';
+import {BufferGeometry} from '../core/BufferGeometry.js';
 import { ExtrudeBufferGeometry } from './ExtrudeGeometry.js';
 
 // TextGeometry
@@ -28,6 +29,7 @@ function TextGeometry( text, parameters ) {
 	Geometry.call( this );
 
 	this.type = 'TextGeometry';
+	this.text = text;
 
 	this.parameters = {
 		text: text,
@@ -42,11 +44,24 @@ function TextGeometry( text, parameters ) {
 TextGeometry.prototype = Object.create( Geometry.prototype );
 TextGeometry.prototype.constructor = TextGeometry;
 
+TextGeometry.prototype.toJSON = function () {
+
+	var data = Geometry.prototype.toJSON.call( this );
+
+	data.text = this.text;
+	data.options = data.parameters;
+	delete data.parameters;
+
+	return data;
+};
+
 // TextBufferGeometry
 
 function TextBufferGeometry( text, parameters ) {
 
 	parameters = parameters || {};
+
+	this.text = text;
 
 	var font = parameters.font;
 
@@ -78,5 +93,14 @@ function TextBufferGeometry( text, parameters ) {
 TextBufferGeometry.prototype = Object.create( ExtrudeBufferGeometry.prototype );
 TextBufferGeometry.prototype.constructor = TextBufferGeometry;
 
+TextBufferGeometry.prototype.toJSON = function () {
+
+	var data = BufferGeometry.prototype.toJSON.call( this );
+
+	data.text = this.text;
+	delete data.shapes;
+
+	return data;
+};
 
 export { TextGeometry, TextBufferGeometry };
