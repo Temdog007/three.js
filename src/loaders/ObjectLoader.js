@@ -351,6 +351,7 @@ Object.assign( ObjectLoader.prototype, {
 							data.tubularSegments,
 							data.radius,
 							data.radialSegments,
+							data.radialOffset,
 							data.closed
 						);
 
