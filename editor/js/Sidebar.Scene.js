@@ -227,15 +227,15 @@ Sidebar.Scene = function ( editor ) {
 				} else if ( value == 'Cut' ) {
 
 					copiedObject = editor.selected;
-					editor.execute( new RemoveObjectCommand( editor.selected ) );
+					editor.execute( new RemoveObjectCommand( editor, editor.selected ) );
 
 				} else if ( value == 'Delete' ) {
 
-					editor.execute( new RemoveObjectCommand( editor.selected ) );
+					editor.execute( new RemoveObjectCommand( editor, editor.selected ) );
 
 				} else if ( value == 'Clone' ) {
 
-					editor.execute( new AddObjectCommand( editor.selected.clone() ) );
+					editor.execute( new AddObjectCommand( editor, editor.selected.clone() ) );
 
 				} else if ( value == 'Paste' && copiedObject !== undefined ) {
 
@@ -244,7 +244,7 @@ Sidebar.Scene = function ( editor ) {
 						copiedObject = copiedObject.clone();
 
 					}
-					editor.execute( new AddObjectCommand( copiedObject, editor.selected ) );
+					editor.execute( new AddObjectCommand( editor, copiedObject, editor.selected ) );
 
 				}
 
