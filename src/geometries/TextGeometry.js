@@ -19,7 +19,7 @@
  */
 
 import { Geometry } from '../core/Geometry.js';
-import {BufferGeometry} from '../core/BufferGeometry.js';
+import { BufferGeometry } from '../core/BufferGeometry.js';
 import { ExtrudeBufferGeometry } from './ExtrudeGeometry.js';
 
 // TextGeometry
