@@ -150,7 +150,7 @@ Editor.prototype = {
 
 	//
 
-	addObject: function ( object ) {
+	addObject: function ( object, parent ) {
 
 		var scope = this;
 
@@ -164,7 +164,8 @@ Editor.prototype = {
 
 		} );
 
-		this.scene.add( object );
+		parent = ( parent === undefined ) ? this.scene : parent;
+		parent.add( object );
 
 		this.signals.objectAdded.dispatch( object );
 		this.signals.sceneGraphChanged.dispatch();
