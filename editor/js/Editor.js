@@ -291,6 +291,24 @@ Editor.prototype = {
 
 	},
 
+	cloneScripts: function ( uuid, newUuid ) {
+
+		var scripts = this.scripts[ uuid ];
+		if ( scripts !== undefined ) {
+
+			var copiedScripts = [];
+			for ( var i = 0; i < scripts.length; ++ i ) {
+
+				copiedScripts.push( JSON.parse( JSON.stringify( scripts[ i ] ) ) );
+
+			}
+			this.scripts[ newUuid ] = copiedScripts;
+
+			this.signals.scriptAdded.dispatch( );
+		}
+
+	},
+
 	//
 
 	addHelper: function () {

@@ -596,7 +596,22 @@ var Loader = function ( editor ) {
 
 				var result = loader.parse( data );
 
-				if ( result.isScene ) {
+				if ( Array.isArray( data.scripts ) === true ) {
+
+					addScripts( result.uuid, data.scripts );
+
+				} else if ( data.scripts !== undefined ) {
+
+					for ( var key in data.scripts ) {
+
+						var scripts = data.scripts[ key ];
+						addScripts( key, scripts );
+
+					}
+
+				}
+
+				if ( result instanceof THREE.Scene ) {
 
 					editor.execute( new SetSceneCommand( editor, result ) );
 
@@ -615,6 +630,12 @@ var Loader = function ( editor ) {
 				break;
 
 		}
+
+	}
+
+	function addScripts( uuid, scripts ) {
+
+		editor.scripts[ uuid ] = scripts;
 
 	}
 
