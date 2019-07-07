@@ -90,7 +90,7 @@ Sidebar.Geometry.TextGeometry = function ( editor, object ) {
 
         var currentFont = editor.fonts[font.getValue()] || editor.fonts.gentilis_bold;
 
-		editor.execute( new SetGeometryCommand( object, new THREE[ geometry.type ](
+		editor.execute( new SetGeometryCommand( editor, object, new THREE[ geometry.type ](
             text.getValue(), {
                 bevelEnabled : bevelEnabled.getValue(),
                 bevelSize : bevelSize.getValue(),
