@@ -7,9 +7,9 @@
  * @constructor
  */
 
-var CenterGeometryCommand = function ( object ) {
+var CenterGeometryCommand = function ( editor, object ) {
 
-	Command.call( this );
+	Command.call( this, editor );
 
 	this.type = 'CenterGeometryCommand';
 	this.name = 'Center Geometry';
