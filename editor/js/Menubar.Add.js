@@ -260,6 +260,7 @@ Menubar.Add = function ( editor ) {
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshStandardMaterial() );
 		mesh.name = 'Text';
 
+		console.log(geometry);
 		editor.execute( new AddObjectCommand( editor, mesh ) );
 
 	} );

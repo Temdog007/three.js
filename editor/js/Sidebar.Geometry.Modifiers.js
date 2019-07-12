@@ -38,7 +38,7 @@ Sidebar.Geometry.Modifiers = function ( editor, object ) {
 	var button = new UI.Button( 'Center' ).setMarginLeft( '45px' ).setMarginTop( '4px' );
 	button.onClick( function () {
 
-		editor.execute( new CenterGeometryCommand( editor.selected ) );
+		editor.execute( new CenterGeometryCommand( editor, editor.selected ) );
 
 	} );
 	innerContainer.add( button );
